@@ -1,2 +1,5 @@
 data.csv
 thetas.json
+venv
+plot.png
+__pycache__

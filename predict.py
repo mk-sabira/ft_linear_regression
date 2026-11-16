@@ -38,9 +38,6 @@ def main():
 
         price = estimate_price(mileage, theta0, theta1)
 
-        if price < 0:
-            price = 0.0
-
         print(f"Estimated price for {mileage} km: {price:.2f}")
 
     except ValueError:
