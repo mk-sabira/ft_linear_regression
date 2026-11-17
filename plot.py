@@ -12,7 +12,9 @@ def main():
 
     x_line = [min(mileages), max(mileages)]
     y_line = [estimate_price(x, theta0, theta1) for x in x_line]
+
     plt.plot(x_line, y_line, color='red', label='Regression line')
+    plt.scatter(x_line, y_line, color='green', label='Line endpoints')
 
     plt.title("Linear regression")
     plt.xlabel("Mileage (km)")
