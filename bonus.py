@@ -1,14 +1,32 @@
 import math
+import matplotlib.pyplot as plt
 from train import load_data
 from predict import load_thetas, estimate_price
+
+
+def plotting(mileages, prices, theta0, theta1):
+    """Plot data points and regression line."""
+    plt.scatter(mileages, prices, color='blue', label='Data')
+
+    x_line = [min(mileages), max(mileages)]
+    y_line = [estimate_price(x, theta0, theta1) for x in x_line]
+
+    plt.plot(x_line, y_line, color='red', label='Regression line')
+    plt.scatter(x_line, y_line, color='green', label='Line endpoints')
+
+    plt.title("Linear regression")
+    plt.xlabel("Mileage (km)")
+    plt.ylabel("Price")
+    plt.grid(True)
+    plt.legend()
+    plt.savefig("plot.png")
 
 
 def mse(y_real, y_pred):
     """Mean Squared Error: the average of the squared errors.
 
     Squaring stops positive and negative errors from cancelling out
-    and punishes big mistakes more. The unit is price squared.
-    """
+    and punishes big mistakes more. The unit is price squared."""
 
     m = len(y_real)
     return (1 / m) * sum((y_pred[i] - y_real[i]) ** 2 for i in range(m))
@@ -60,20 +78,29 @@ def r2(y_real, y_pred):
 
 
 def main():
-    """Load the data and trained thetas, then print the model's metrics."""
+    """Load the data and trained thetas, then plot and
+    print the model's metrics."""
 
     mileages, prices = load_data("data.csv")
     theta0, theta1 = load_thetas()
 
+    plotting(mileages, prices, theta0, theta1)
+
     predictions = [estimate_price(x, theta0, theta1) for x in mileages]
 
     print(f"MSE:  {mse(prices, predictions):.2f} (average squared error)")
-    print(f"RMSE: {rmse(prices, predictions):.2f} "
-          "(typical error, in price units)")
-    print(f"MAE:  {mae(prices, predictions):.2f} "
-          "(average absolute error)")
-    print(f"R2:   {r2(prices, predictions):.4f} "
-          "(1 = perfect, 0 = same as predicting the mean)")
+    print(
+        f"RMSE: {rmse(prices, predictions):.2f} "
+        "(typical error, in price units)"
+    )
+    print(
+        f"MAE:  {mae(prices, predictions):.2f} "
+        "(average absolute error)"
+    )
+    print(
+        f"R2:   {r2(prices, predictions):.4f} "
+        "(1 = perfect, 0 = same as predicting the mean)"
+    )
 
 
 if __name__ == "__main__":

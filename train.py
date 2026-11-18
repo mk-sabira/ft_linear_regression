@@ -54,7 +54,7 @@ def train(norm_mileages, prices, learning_rate=0.1, epochs=10000):
         tmp0 = learning_rate * (1 / m) * sum(errors)
         tmp1 = learning_rate * (1 / m) * sum(
             errors[i] * norm_mileages[i] for i in range(m))
-
+        
         theta0 -= tmp0
         theta1 -= tmp1
 
