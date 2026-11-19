@@ -1,6 +1,7 @@
 import csv
 import json
 import sys
+from predict import estimate_price
 
 
 def load_data(filename):
@@ -47,14 +48,14 @@ def train(norm_mileages, prices, learning_rate=0.1, epochs=10000):
 
     for _ in range(epochs):
         errors = [
-            (theta0 + theta1 * norm_mileages[i]) - prices[i]
+            estimate_price(norm_mileages[i], theta0, theta1) - prices[i]
             for i in range(m)
         ]
 
         tmp0 = learning_rate * (1 / m) * sum(errors)
         tmp1 = learning_rate * (1 / m) * sum(
             errors[i] * norm_mileages[i] for i in range(m))
-        
+
         theta0 -= tmp0
         theta1 -= tmp1
 
@@ -73,6 +74,9 @@ def denormalize_data(theta0, theta1, min_km, max_km):
 
 
 def main():
+    """Load the data, train the linear regression model,
+and save thetas to a JSON file."""
+
     mileages, prices = load_data("data.csv")
 
     norm_mileages, min_km, max_km = normalize_data(mileages)

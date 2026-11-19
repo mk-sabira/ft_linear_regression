@@ -99,7 +99,7 @@ def main():
     )
     print(
         f"R2:   {r2(prices, predictions):.4f} "
-        "(1 = perfect, 0 = same as predicting the mean)"
+        f" or {r2(prices, predictions) * 100:.2f} percent of accuracy"
     )
 
 

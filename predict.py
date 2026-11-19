@@ -23,6 +23,9 @@ def estimate_price(mileage, theta0, theta1):
 
 
 def main():
+    """Load trained parameters, prompt for car mileage,
+and print the estimated price."""
+
     theta0, theta1 = load_thetas()
 
     print(f"Current model parameters loaded -> theta0: \
